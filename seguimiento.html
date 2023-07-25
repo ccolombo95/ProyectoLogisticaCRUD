@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Lista de órdenes</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link rel="stylesheet" href="css/estilo-general.css">
+    
+    <style>
+
+        .btn-animate {
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+
+        .btn-animate:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+        table {
+            box-shadow: 0px 7px 7px -7px rgb(6, 6, 6);
+        }
+        tr {
+            border-color: rgba(0, 0, 0, 0.368);
+            background-color: rgb(202, 221, 230);
+        }
+
+    </style>
+
+</head>
+
+<body>
+    <header id="header">
+        <nav class="navbar navbar-expand-sm  ">
+            <div class="container">
+              <a class="navbar-brand" href="index.html"><img src="logo.png" alt="logo" width="100rem" id="logo"></a>
+              <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavId" aria-controls="collapsibleNavId"
+                  aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="collapsibleNavId">
+                  <ul class="navbar-nav me-auto mt-2 mt-lg-0">
+                      <li class="nav-item dropdown" style="display: none;">
+                          <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">CRUD</a>
+                          <div class="dropdown-menu" aria-labelledby="dropdownId">
+                              <a class="dropdown-item" href="seguimiento.html">Seguimiento</a>
+                          </div>
+                      </li>
+                  </ul>
+              </div>
+              <a class="btn btn-primary animate__animated animate__heartBeat btn-animate" href="orden-create.html">Nueva órden</a>
+            </div>
+        </nav>
+
+    </header>
+    <main>
+        <div id="app" class="container">
+            <h1 class="titulo">Órdenes</h1>
+            <br>
+            <br>
+            <form @submit.prevent="searchData" class="d-flex my-2 my-lg-0" id="buscador">
+                <input v-model="search" class="form-control me-sm-2" id="search" name="search" type="text" placeholder="Buscar cliente" v-on:keyup.enter="searchData">
+                <button type="submit" class="btn btn-success" v-on:click="searchData">Buscar</button>
+                <a class="btn btn-danger animate__animated animate__heartBeat btn-animate" href="seguimiento.html">x</a>
+            </form>
+            <br>
+            <div v-if="error">
+                <p>Lo sentimos, ha ocurrido un error.</p>
+            </div>
+            <div v-else>
+                <section v-if="cargando">
+                    <div class="spinner-border"></div>
+                    <p>Cargando...</p>
+                </section>
+                <section v-else>
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="tabla_seguimiento">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Id</th>
+                                    <th scope="col">Apellido</th>
+                                    <th scope="col">Nombre</th>
+                                    <th scope="col">Estado</th>
+                                    <th scope="col">Fecha</th>
+                                    <th class="col-md-1" scope="col">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="orden in seguimiento">
+                                    <td scope="row">{{orden.id}}</td>
+                                    <td>{{orden.apellido}}</td>
+                                    <td>{{orden.nombre}}</td>
+                                    <td>{{orden.estado}}</td>
+                                    <td>{{orden.fecha}}</td>
+                                    <td  id="botones"><a class="btn btn-primary" :href="'orden-update.html?id='+ orden.id">Editar</a><button type="button" class="btn btn-danger" v-on:click="eliminar(orden.id)">x</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js" integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous"></script>
+        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script><!--Enlace de VUE-->
+        <script src="./js/ordenes.js"></script>
+    </main>
+</body>
+</html>
